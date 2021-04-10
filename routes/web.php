@@ -16,3 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['prefix' => 'clientes'], function(){
+    Route::get('/listar', [App\Http\Controllers\ClientesController::class, 'listar']);
+});
+
+Route::group(['prefix' => 'users'], function(){
+    Route::get('/listar', [App\Http\Controllers\UsersController::class, 'listar'])->middleware('auth');
+});

@@ -28,3 +28,8 @@ Route::group(['prefix' => 'clientes'], function(){
 Route::group(['prefix' => 'users'], function(){
     Route::get('/listar', [App\Http\Controllers\UsersController::class, 'listar'])->middleware('auth');
 });
+
+Route::group(['middleware' => ['auth']], function(){
+    Route::resource('/users', App\Http\Controllers\UsersController::class);
+    Route::resource('/roles', App\Http\Controllers\RoleController::class);
+});

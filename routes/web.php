@@ -23,6 +23,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['prefix' => 'clientes'], function(){
     Route::get('/listar', [App\Http\Controllers\ClientesController::class, 'listar']);
+    Route::get('/', [App\Http\Controllers\ClientesController::class, 'index']);
 });
 
 Route::group(['prefix' => 'users'], function(){

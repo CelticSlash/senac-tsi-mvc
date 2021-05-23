@@ -9,20 +9,25 @@ class Funcionario extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'id', 'nome', 'endereco', 'email', 'telefone'];
+    protected $fillable = [	'id',
+							'nome',
+							'endereco',
+							'email',
+							'telefone'];   
 
-    protected $table = 'Funcionario';
-    
-    /*  É possivel alterar a chave primária usando:
-            protected $primaryKey = 'nome da pk'
-        
-        Caso não queira auto_increment:
-            public $increment = false;
-        
-        Para definir tipo:
-            protected $keyType = 'string';
-        
-        Para remover os campos timestamp:
-            public $timestamps = false;
-    */
+	protected $table = 'Funcionario';
+
+	/*
+	É possível mudar a chave primária assim:
+	protected $primaryKey = 'nome_da_pk';
+	
+	Se não quiser que seja auto_increment
+	public $increment = false;
+
+	Para definir o tipo 
+	protected $keyType = 'string';
+
+	Para tirar os campos timestamps
+	public $timestamps = false;
+	*/							
 }

@@ -49,15 +49,15 @@
 
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Endereço:</strong>
-            {!! Form::text('endereco', array('placeholder' => 'Endereço','class' => 'form-control')) !!}
+            <strong>Data de nascimento:</strong>
+            {!! Form::date('nascimento', null, array('placeholder' => 'Data de nascimento','class' => 'form-control')) !!}
         </div>
-    </div>
+    </div> 
 
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            <strong>Perfil:</strong>
-            {!! Form::select('roles[]', $roles,$clienteRole, array('class' => 'form-control','multiple')) !!}
+            <strong>Endereço:</strong>
+            {!! Form::text('endereco', null, array('placeholder' => 'Endereço','class' => 'form-control')) !!}
         </div>
     </div>
 

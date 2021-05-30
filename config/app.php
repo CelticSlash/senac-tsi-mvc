@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC-3',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -174,6 +174,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        //Provider para controle de perfil de usuário (roles)
+        Spatie\Permission\PermissionServiceProvider::class,
 
     ],
 

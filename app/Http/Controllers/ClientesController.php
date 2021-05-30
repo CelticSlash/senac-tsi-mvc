@@ -13,33 +13,32 @@ class ClientesController extends Controller
     use HasFactory;
     use HasRoles;
 
-    public function __construct()
-    {
-        $this->middleware('premission:cliente-list', ['only' => ['index', 'show']]);
-        $this->middleware('premission:cliente-create', ['only' => ['create', 'store']]);
-        $this->middleware('premission:cliente-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('premission:cliente-delete', ['only' => ['destroy']]);
-    }
+	
+	//Essa é uma forma de controlar o acesso
+	public function __construct()
+	{
+		$this->middleware('permission:cliente-list',['only' => ['index','show']]);
+		$this->middleware('permission:cliente-create',['only' => ['create','store']]);
+		$this->middleware('permission:cliente-edit',['only' => ['edit','update']]);
+		$this->middleware('permission:cliente-delete',['only' => ['destroy']]);
+	}
 
     public function listar()
     {
-        $clientes = Clientes::all();
+    	$clientes = Clientes::all();
 
-        return view('clientes.listar', ['clientes' => $clientes]);
+    	return view('clientes.listar', ['clientes' => $clientes]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function index( Request $request)
     {
         $qtd_por_pagina = 5;
 
         $data = Clientes::orderBy('id', 'DESC')->paginate($qtd_por_pagina);
 
-        return view('clientes.index', compact('data'))->with('i', ($request->input('page', 1) - 1) * $qtd_por_pagina);
+        return view('clientes.index', 
+                compact('data'))->
+                    with('i', ($request->input('page', 1) - 1) * $qtd_por_pagina);
     }
 
     /**
@@ -49,9 +48,7 @@ class ClientesController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name', 'name')->all();
-
-        return view('clientes.create', compact($roles));
+        return view('clientes.create');
     }
 
     /**
@@ -62,17 +59,15 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [ 'nome' => 'required', 
-                                    'email' => 'required|email|unique:users,email', 
-                                    'roles' => 'required']);
+        $this->validate($request,
+                        ['nome' => 'required',
+                        'email' => 'required|email|unique:users,email']);
 
         $input = $request->all();
 
-        $cliente = Clientes::create($input);
+        Clientes::create($input);
 
-        $cliente->assignRole($request->input('roles'));
-
-        return redirect()->route('clientes.index')->with('success', 'Cliente criado com sucesso');
+        return redirect()->route('clientes.index')->with('success','Cliente criado com sucesso');
     }
 
     /**
@@ -98,11 +93,7 @@ class ClientesController extends Controller
     {
         $cliente = Clientes::find($id);
 
-        $roles = Role::pluck('name', 'name')->all();
-
-        $clienteRole = $cliente->roles->pluck('name', 'name')->all();
-
-        return view('clientes.edit', compact('cliente', 'roles', 'clienteRole'));
+        return view('clientes.edit', compact('cliente'));
     }
 
     /**
@@ -114,19 +105,15 @@ class ClientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [ 'nome' => 'required', 
-                                    'email' => 'required|email|unique:users,email', 
-                                    'roles' => 'required']);
+        $this->validate($request,
+                        ['nome' => 'required',
+                        'email' => 'required|email|unique:users,email']);
 
         $input = $request->all();
 
         $cliente = Clientes::find($id);
 
         $cliente->update($input);
-
-        DB::table('model_has_roles')->where('model_id', $id)->delete();
-
-        $cliente->assignRole($request->input('roles'));
 
         return redirect()->route('clientes.index')->with('success', 'Cliente atualizado com sucesso');
     }
@@ -141,6 +128,7 @@ class ClientesController extends Controller
     {
         Clientes::find($id)->delete();
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente removido com sucesso');
-    }
+        return redirect()->route('clientes.index')->with('success','Cliente removido com sucesso');
+    }    
+
 }
